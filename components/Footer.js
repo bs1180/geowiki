@@ -10,6 +10,14 @@ const Footer = withProps({
   align: "center",
   justify: "center",
   is: "footer"
-})(styled(Flex)``);
+})(styled(Flex)`
+  > a {
+    margin-left: 5px;
+  }
+`);
 
-export default () => <Footer>Contact Us · Disclaimer</Footer>;
+export default () => (
+  <Footer>
+    Contact Us · Disclaimer · <a href="https://github.com/bs1180/geowiki">Source code</a>
+  </Footer>
+);
