@@ -13,6 +13,11 @@ const Footer = withProps({
 })(styled(Flex)`
   > a {
     margin-left: 5px;
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `);
 

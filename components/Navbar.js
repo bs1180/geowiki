@@ -53,9 +53,7 @@ const NavLink = withProps({ is: "a", my: [2, 0] })(styled(Box)`
   }
 `);
 
-const Navbar = styled(Flex)`
-  background: #91785d;
-`;
+const Navbar = styled(Flex)`background: #91785d;`;
 
 const ConstrainedWidth = styled(Flex)`
   width: 100%;
@@ -75,7 +73,7 @@ const MenuButton = withProps({
   ${display};
 `);
 
-const Wrapper = styled(Flex)`${display};`;
+const Wrapper = withProps({ is: "nav" })(styled(Flex)`${display};`);
 
 export default class extends React.Component {
   state = {
