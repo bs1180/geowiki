@@ -3,6 +3,7 @@ import styled from "react-emotion";
 import { space, fontSize, width, color, borderColor, responsiveStyle } from "styled-system";
 import { Flex, Box } from "grid-emotion";
 import { Menu } from './Icons'
+import { withProps } from 'recompose'
 
 const Badge = styled("div")`
   position: absolute;
@@ -16,7 +17,6 @@ const Badge = styled("div")`
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
   height: 100px;
   z-index: 100;
-  box-shadow: 1px solid;
   &:after {
     background: inherit;
     bottom: 0;
@@ -33,7 +33,7 @@ const Badge = styled("div")`
 `;
 
 const display = responsiveStyle({
-  prop: "d",
+  prop: "display",
   cssProperty: "display"}
 );
 const direction = responsiveStyle("");
@@ -57,21 +57,16 @@ const NavLink = styled("a")`
 
 const Navbar = styled(Flex)`background: #91785d;`;
 
-const MenuButton = styled('button')`
+const MenuButton = withProps({
+  display: ['block', 'none'],
+  as: 'button'
+})(styled(Box)`
   ${display}
-`
+`)
 
-MenuButton.defaultProps = {
-  d: ['block', 'none']
-}
-
-const Wrapper = styled(Flex)`
+const Wrapper = withProps({ display: ['none', 'flex'] })(styled(Flex)`
   ${display}
-`
-
-Wrapper.defaultProps = {
-  d: ['none', 'flex']
-}
+`)
 
 export default class extends React.Component {
 

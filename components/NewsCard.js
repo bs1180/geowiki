@@ -1,22 +1,37 @@
 import React from 'react'
-import Base from './base'
+import { Box, Flex } from 'grid-emotion'
 import styled from 'react-emotion'
+import { withProps } from 'recompose'
+import { format } from 'date-fns'
 
-const Card = styled(Base)`
+export const Card = withProps({
+  p: 2,
+  direction: 'column'
+})(styled(Flex)`
+background: white;
 border: 1px solid #ced4da;
 border-right: 2px solid #8B5D33;
 border-radius: 4px;
+ a {
+  text-decoration: none;
+  margin: 0; color:  #8B5D33; font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+`)
+
+const Date = styled('time')`
+  font-size: 0.8rem;
+  color: gray;
 `
 
-Card.defaultProps = {
-  bg: 'white',
-  mb: 2,
-  p: 2
-}
-
-export default ({ headline, body, date, link }) => (<Card>
-  <a href={link} css={`margin: 0; color:  #8B5D33; font-weight: bold;`}>{ headline }</a>
+export default ({ headline, body, date, link }) => (<Card mb={3}>
+  <a href={link}>{ headline }</a>
   <p>{ body }</p>
-  <small>{ date }</small>
-  <a href={link} css={`margin: 0; color:  #8B5D33; font-weight: bold;`}>Read more »</a>
+  <Flex>
+    <Date>{ format(date, 'Do MMM YYYY') }</Date>
+    <Box is="span" flex="1 1 0" />
+    <a href={link}>Read more »</a>
+  </Flex>
 </Card>)

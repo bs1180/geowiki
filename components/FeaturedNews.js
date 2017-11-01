@@ -4,6 +4,15 @@ import styled, { keyframes } from "react-emotion";
 import { space } from "styled-system";
 import { withProps } from "recompose";
 import { Box } from "grid-emotion";
+import { Card } from './NewsCard'
+
+const FeaturedCard = withProps({ m: 3, w: 350 })(styled(Card)`
+  background-color: #DFD2C7;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  border: none;
+  border-right: 2px solid #8B5D33;
+`)
+// f5f2f0
 // const bounce = keyframes`
 // from {
 //   transform: scale(1.01);
@@ -17,31 +26,20 @@ import { Box } from "grid-emotion";
 //   animation: ${bounce} 0.2s infinite ease-in-out alternate;
 // }
 
-const LatestNews = withProps({ align: "flex-start " })(styled(Box)`
-  background: #fff;
-  align-items: flex-start;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2), inset 0 -1px 0 rgba(16, 22, 26, 0.1);
-  border-right: 2px solid #8b5d33;
-  > h2 {
-    margin-left: 1rem;
-    margin-top: 0;
-  }
+// const LatestNews = withProps({ align: "flex-start", p: 1, m: 3, w: '300' })(styled(Box)`
+//   border-radius: 4px;
+//   background-color: #F5F2F0;
+//   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+//   border-left: 2px solid #8b5d33;
+//   > h3 {
+//     margin: 0;
+//   }
+// `);
 
-`);
-
-//  border: 1px solid #ced4da;
-
-const NewsImage = styled("img")`
-  border-radius: 999px;
-  height: 40px;
-  width: 40px;
-`;
-
-export default ({ label, description }) => (
-  <LatestNews m={3} p={1}>
-    <NewsImage src="/static/cover.jpg" />
-    <h2>New book launched</h2>
-    <p>IIASA s</p>
-  </LatestNews>
+export default ({ headline, body, link }) => (
+  <FeaturedCard>
+    <a href={link}>{ headline }</a>
+    <p>{ body }</p>
+    <a href={link} css={`text-align: right`}>Read more »</a>
+  </FeaturedCard>
 );

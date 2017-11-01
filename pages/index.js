@@ -2,47 +2,56 @@ import React from "react";
 import styled, { hydrate, keyframes, css, injectGlobal } from "react-emotion";
 import { Flex, Box } from "grid-emotion";
 import Link from "next/link";
-import { space, fontSize, width, color, borderColor, responsiveStyle, flex } from "styled-system";
+import { withProps, defaultProps } from "recompose";
+
 import FeaturedNews from "../components/FeaturedNews";
 import HeroImage from "../components/HeroImage";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import { news, projects, navLinks } from '../data'
-import NewsCard from '../components/NewsCard'
-import ProjectCard from '../components/ProjectCard'
-import Base from '../components/base'
-import Footer from '../components/Footer'
+import NewsCard from "../components/NewsCard";
+import ProjectCard from "../components/ProjectCard";
+import Footer from "../components/Footer";
 
 if (typeof window !== "undefined") {
   hydrate(window.__NEXT_DATA__.ids);
 }
 
-
-const geoBlue = '#0C3182'
-
-// https://gist.github.com/tkh44/ba7b13da7c1d694a3fec40410565a99d
-
-const Container = styled(Base)`
-  display: flex;
+const Container = withProps({ 
+  direction: ["column-reverse", "row"],
+  px: 3
+})(styled(Flex)`
   background-image: url("/static/bg2.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  position: relative;
-`
+  > h3 {
+    
+  }
+`);
 
-const Column = styled(Base)`
-  display: flex
-`
-
-Column.defaultProps = {
-  direction: 'column',
+const Column = defaultProps({
+  direction: "column",
   flex: 1,
   mx: [0, 1],
   p: 2
-}
+})(styled(Box)`
+`);
 
 export default class Homepage extends React.Component {
+  static defaultProps = {
+    data: {
+      news: [],
+      projects: [],
+      navLinks: []
+    }
+  };
+
+  static getInitialProps() {
+    // this would normally be a fetch call to a CMS
+    const data = require("../data");
+    return { data };
+  }
+
   render() {
     injectGlobal`
       html, body {
@@ -53,25 +62,30 @@ export default class Homepage extends React.Component {
         font-size: 16px;
         border-top: 2px solid #8B5D33;
       }
-  `;
+    `;
+
+    const { news, projects, navLinks } = this.props.data;
+
+    // Use the first news article in the featured news box, and the rest in the main column
+    const articles = news.slice(1);
 
     return (
       <div>
         <Navbar links={navLinks} />
-        <HeroImage height={300}>
-          <FeaturedNews title="New project launched" description="Brand new project" />
+        <HeroImage>
+          <FeaturedNews {...news[0]} />
         </HeroImage>
-        <Container direction={['column-reverse', 'row']}>
+        <Container>
           <Column flex={`0 0 150px`} p={0}>
             <Sidebar />
           </Column>
           <Column>
-          <h3 css={`color: #0C3182`}>Latest News</h3>
-            { news.map((n) => (<NewsCard key={n.id} {...n} />)) }
+            <h3 css={`color: #8B5D33;`}>Latest News</h3>
+            {articles.map(n => <NewsCard key={n.id} {...n} />)}
           </Column>
           <Column>
-          <h3 css={`color: #0C3182`}>Our Projects</h3>
-            { projects.map((p, i) => <ProjectCard key={p.name} {...p} />)}
+            <h3 css={`color: #0c3182;`}>Our Projects</h3>
+            {projects.map((p, i) => <ProjectCard key={p.name} {...p} />)}
           </Column>
         </Container>
         <Footer />
@@ -79,5 +93,3 @@ export default class Homepage extends React.Component {
     );
   }
 }
-
-// flex: 0 0 150px;
