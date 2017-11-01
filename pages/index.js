@@ -11,10 +11,12 @@ import { news, projects, navLinks } from '../data'
 import NewsCard from '../components/NewsCard'
 import ProjectCard from '../components/ProjectCard'
 import Base from '../components/base'
+import Footer from '../components/Footer'
 
 if (typeof window !== "undefined") {
   hydrate(window.__NEXT_DATA__.ids);
 }
+
 
 const geoBlue = '#0C3182'
 
@@ -60,8 +62,8 @@ export default class Homepage extends React.Component {
           <FeaturedNews title="New project launched" description="Brand new project" />
         </HeroImage>
         <Container direction={['column-reverse', 'row']}>
-          <Column flex={`0 0 150px`}>
-            Sidebar
+          <Column flex={`0 0 150px`} p={0}>
+            <Sidebar />
           </Column>
           <Column>
           <h3 css={`color: #0C3182`}>Latest News</h3>
@@ -72,9 +74,7 @@ export default class Homepage extends React.Component {
             { projects.map((p, i) => <ProjectCard key={p.name} {...p} />)}
           </Column>
         </Container>
-        <Base p={2} direction="row" d="flex" css={`align-items: center; justify-content: center;`} width={1} bg="red">
-          Contact Us · Disclaimer 
-        </Base>
+        <Footer />
       </div>
     );
   }
