@@ -1,19 +1,36 @@
 // Call to action promotes a single activity
 import React from "react";
-import styled from "react-emotion";
-import { space } from 'styled-system'
+import styled, { keyframes } from "react-emotion";
+import { space } from "styled-system";
+import { withProps } from "recompose";
+import { Box } from "grid-emotion";
+// const bounce = keyframes`
+// from {
+//   transform: scale(1.01);
+// }
+// to {
+//   transform: scale(0.99);
+// }
+// `
 
-const LatestNews = styled("div")`
+// &:hover {
+//   animation: ${bounce} 0.2s infinite ease-in-out alternate;
+// }
+
+const LatestNews = withProps({ align: "flex-start " })(styled(Box)`
   background: #fff;
-  border-left: 2px solid #8b5d33;
-  display: flex;
-  ${space};
   align-items: flex-start;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2), inset 0 -1px 0 rgba(16, 22, 26, 0.1);
+  border-right: 2px solid #8b5d33;
   > h2 {
     margin-left: 1rem;
     margin-top: 0;
   }
-`;
+
+`);
+
+//  border: 1px solid #ced4da;
 
 const NewsImage = styled("img")`
   border-radius: 999px;
