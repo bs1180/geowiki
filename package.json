@@ -1,0 +1,21 @@
+{
+  "name": "geowiki",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next",
+    "build": "next build && next export"
+  },
+  "dependencies": {
+    "babel-plugin-emotion": "^8.0.4",
+    "emotion": "^8.0.5",
+    "emotion-server": "^8.0.5",
+    "grid-emotion": "^2.1.0",
+    "next": "^4.1.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-emotion": "^8.0.5",
+    "styled-system": "^1.0.8",
+    "theming": "^1.1.0"
+  },
+  "license": "ISC"
+}
