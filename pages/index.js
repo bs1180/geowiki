@@ -3,6 +3,7 @@ import styled, { hydrate, keyframes, css, injectGlobal } from "react-emotion";
 import { Flex, Box } from "grid-emotion";
 import Link from "next/link";
 import { withProps, defaultProps } from "recompose";
+import { color } from "styled-system";
 
 import FeaturedNews from "../components/FeaturedNews";
 import HeroImage from "../components/HeroImage";
@@ -16,25 +17,31 @@ if (typeof window !== "undefined") {
   hydrate(window.__NEXT_DATA__.ids);
 }
 
-const Container = withProps({ 
-  direction: ["column-reverse", "row"],
-  px: 3
+const Container = withProps({
+  mx: "auto"
 })(styled(Flex)`
   background-image: url("/static/bg2.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  > h3 {
-    
-  }
 `);
 
 const Column = defaultProps({
   direction: "column",
   flex: 1,
   mx: [0, 1],
-  p: 2
-})(styled(Box)`
+  p: [0, 2]
+})(styled(Box)``);
+
+const Heading = styled("h3")`${color};`;
+
+const ConstrainedWidth = withProps({
+  direction: ["column-reverse", "row"],
+  p: 1
+})(styled(Flex)`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 `);
 
 export default class Homepage extends React.Component {
@@ -76,17 +83,19 @@ export default class Homepage extends React.Component {
           <FeaturedNews {...news[0]} />
         </HeroImage>
         <Container>
-          <Column flex={`0 0 150px`} p={0}>
-            <Sidebar />
-          </Column>
-          <Column>
-            <h3 css={`color: #8B5D33;`}>Latest News</h3>
-            {articles.map(n => <NewsCard key={n.id} {...n} />)}
-          </Column>
-          <Column>
-            <h3 css={`color: #0c3182;`}>Our Projects</h3>
-            {projects.map((p, i) => <ProjectCard key={p.name} {...p} />)}
-          </Column>
+          <ConstrainedWidth>
+            <Column flex={`0 0 150px`} p={0}>
+              <Sidebar />
+            </Column>
+            <Column>
+              <Heading color="#8B5D33">Latest News</Heading>
+              {articles.map(n => <NewsCard key={n.id} {...n} />)}
+            </Column>
+            <Column>
+              <Heading color="#0c3182">Our Projects</Heading>
+              {projects.map((p, i) => <ProjectCard key={p.name} {...p} />)}
+            </Column>
+          </ConstrainedWidth>
         </Container>
         <Footer />
       </div>

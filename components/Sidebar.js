@@ -7,7 +7,8 @@ import { withProps } from 'recompose'
 const Sidebar = withProps({
   width: [150, 1],
   direction: 'row',
-  justify: 'center'
+  justify: 'center',
+  m: 'auto'
 })(styled(Flex)`
   background-color: #8B5D33;
   position: relative;
@@ -29,7 +30,7 @@ const Sidebar = withProps({
 
 export default () => (
   <Sidebar>
-    <Icons.Twitter />
-    <Icons.Facebook />
+    <Icons.Twitter mx={1} />
+    <Icons.Facebook mx={1} />
   </Sidebar>
 );

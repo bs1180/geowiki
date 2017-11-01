@@ -1,17 +1,16 @@
 import React from "react";
 import styled from "react-emotion";
-import { space, fontSize, width, color, borderColor, responsiveStyle } from "styled-system";
+import { responsiveStyle } from "styled-system";
 import { Flex, Box } from "grid-emotion";
-import { Menu } from './Icons'
-import { withProps } from 'recompose'
+import { Menu } from "./Icons";
+import { compose, withProps, defaultProps, mapProps } from "recompose";
 
-const Badge = styled("div")`
+const Badge = styled(Box)`
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
-  left: 20px;
+  top: -20px;
   width: 150px;
   background-color: #fff;
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
@@ -34,15 +33,14 @@ const Badge = styled("div")`
 
 const display = responsiveStyle({
   prop: "display",
-  cssProperty: "display"}
-);
-const direction = responsiveStyle("");
+  cssProperty: "display"
+});
 
-const NavLink = styled("a")`
+const NavLink = withProps({ is: "a", my: [2, 0] })(styled(Box)`
   text-transform: uppercase;
   text-decoration: none;
   color: #fff;
-  ${space} ${fontSize} ${width} ${color} ${borderColor} &:after {
+  &:after {
     content: "";
     display: block;
     width: 0;
@@ -53,50 +51,70 @@ const NavLink = styled("a")`
   &:hover:after {
     width: 100%;
   }
+`);
+
+const Navbar = styled(Flex)`
+  background: #91785d;
 `;
 
-const Navbar = styled(Flex)`background: #91785d;`;
+const ConstrainedWidth = styled(Flex)`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  align-items: flex-start;
+`;
 
 const MenuButton = withProps({
-  display: ['block', 'none'],
-  as: 'button'
+  display: ["block", "none"],
+  is: "button"
 })(styled(Box)`
-  ${display}
-`)
+  cursor: pointer;
+  border: none;
+  background: inherit;
+  ${display};
+`);
 
-const Wrapper = withProps({ display: ['none', 'flex'] })(styled(Flex)`
-  ${display}
-`)
+const Wrapper = styled(Flex)`${display};`;
 
 export default class extends React.Component {
-
   state = {
     open: false
-  }
+  };
 
-  toggleOpen () {
-    this.setState(state => { open: !!state.open })
-  }
+  toggleOpen = () => {
+    this.setState(s => {
+      return { open: !s.open };
+    });
+  };
+
+  renderLink = ({ name, href = "#" }) => (
+    <NavLink key={name} href={href} mx={2}>
+      {name}
+    </NavLink>
+  );
 
   render() {
     const { links = [] } = this.props;
+    const { open } = this.state;
+
+    const x = open ? ["flex", "none"] : "none";
 
     return (
-      <Navbar>
-        <Badge>
-          <img src="/static/logo2.jpg" width="100px" />
-        </Badge>
-        <span css={`flex: 1 1 auto`} />
-        <Wrapper id="wrapper">
-          {links.map(l => (
-            <NavLink key={l.name} href="#" mx={2} my={2}>
-              {l.name}
-            </NavLink>
-          ))}
-        </Wrapper>
-        <MenuButton onClick={this.toggleOpen}>
-          <Menu />
-        </MenuButton>
+      <Navbar p={2}>
+        <ConstrainedWidth id="con">
+          <Badge>
+            <img src="/static/logo2-optimised.jpg" width="100" height="100" />
+          </Badge>
+          <span css={`flex: 1 1 auto`} />
+          <Wrapper display={["none", "flex"]}>{links.map(this.renderLink)}</Wrapper>
+          <Wrapper display={x} mt={100} direction="column">
+            {links.map(this.renderLink)}
+          </Wrapper>
+          <MenuButton onClick={this.toggleOpen}>
+            <Menu />
+          </MenuButton>
+        </ConstrainedWidth>
       </Navbar>
     );
   }

@@ -3,10 +3,7 @@ import styled from "react-emotion";
 import { Flex } from 'grid-emotion'
 import { withProps } from 'recompose'
 
-const HeroImage = withProps({
-  align: 'flex-end',
-  justify: 'flex-end'
-})(styled(Flex)`
+const HeroImage = (styled(Flex)`
   background-image: url("/static/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -14,4 +11,18 @@ const HeroImage = withProps({
   height: 300px;
 `)
 
-export default HeroImage;
+const ConstrainedWidth = withProps({
+  align: 'flex-end',
+  justify: 'flex-end'
+})(styled(Flex)`
+width: 100%;
+max-width: 1200px;
+margin: 0 auto;
+position: relative;
+`);
+
+export default ({ children }) => (<HeroImage>
+  <ConstrainedWidth>
+    { children }
+  </ConstrainedWidth>
+</HeroImage>)
