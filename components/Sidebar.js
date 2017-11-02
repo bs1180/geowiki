@@ -5,32 +5,27 @@ import { Flex, Box } from 'grid-emotion'
 import { withProps } from 'recompose'
 
 const Sidebar = withProps({
-  width: [150, 1],
+  width: [250, 1],
   direction: 'row',
   justify: 'center',
-  m: 'auto'
+  mx: 'auto',
+  mt: [0, "-30"],
+  py: [1, 3]
 })(styled(Flex)`
   background-color: #8B5D33;
   position: relative;
-  z-index:20
-  &:after {
-    background: inherit;
-    bottom: 0;
-    content: "";
-    display: block;
-    height: 50px;
-    left: 0;
-    position: absolute;
-    right: 0;
-    transform: skewY(-10deg);
-    transform-origin: 100%;
-    z-index: -1;
+  z-index:20;
+  transform: skewY(-10deg);
+  > div {
+    transform: skewY(10deg);
   }
 `)
 
 export default () => (
   <Sidebar>
-    <Icons.Twitter mx={1} />
-    <Icons.Facebook mx={1} />
+    <div>
+      <Icons.Twitter mx={1} />
+      <Icons.Facebook mx={1} />
+    </div>
   </Sidebar>
 );
