@@ -24,6 +24,9 @@ const Card = withProps({
     margin: 0;
     color: #0c3182;
   }
+  > p {
+    margin-bottom: 0;
+  }
 `);
 
 export default ({ name, description }) => (
